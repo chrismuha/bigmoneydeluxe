@@ -1714,7 +1714,7 @@ button {
 .jackpot-pill b { color: var(--jackpot-metal); }
 .jackpot-mini { --jackpot-color: #b87333; --jackpot-metal: #e0a06a; }
 .jackpot-minor { --jackpot-color: #aeb8be; --jackpot-metal: #dce3e6; }
-.jackpot-major { --jackpot-color: #d9dce2; --jackpot-metal: #f4f5f7; }
+.jackpot-major { --jackpot-color: #8f2434; --jackpot-metal: #e27986; }
 .jackpot-grand { --jackpot-color: #d4a62a; --jackpot-metal: #f4d36b; }
 
 .money-chip.jackpot-chip {
@@ -1732,8 +1732,8 @@ button {
 }
 
 .money-chip.jackpot-major {
-  background: radial-gradient(circle at 35% 25%, #fff, #d9dce2 52%, #858b96 100%);
-  border-color: #f5f5f5;
+  background: radial-gradient(circle at 35% 25%, #ffc0c7, #a52d3e 54%, #4d101a 100%);
+  border-color: #e27986;
 }
 
 .money-chip.jackpot-grand {
