@@ -1696,3 +1696,130 @@ button {
   border-radius: 12px;
   background: rgba(4, 16, 11, .8);
 }
+
+/* Metallic jackpot styling: intentionally distinct from Muha Slots neon */
+.jackpot-board h3 {
+  color: #e9cf8a;
+  font-family: Georgia, "Times New Roman", serif;
+  text-shadow: 0 1px 0 #3b2b10;
+}
+
+.jackpot-pill {
+  border-width: 2px;
+  background: linear-gradient(180deg, #183326, #091a12);
+  color: var(--jackpot-metal);
+  box-shadow: inset 0 1px rgba(255,255,255,.12), inset 0 -2px rgba(0,0,0,.35), 0 2px 5px rgba(0,0,0,.45);
+}
+
+.jackpot-pill b { color: var(--jackpot-metal); }
+.jackpot-mini { --jackpot-color: #b87333; --jackpot-metal: #e0a06a; }
+.jackpot-minor { --jackpot-color: #aeb8be; --jackpot-metal: #dce3e6; }
+.jackpot-major { --jackpot-color: #d9dce2; --jackpot-metal: #f4f5f7; }
+.jackpot-grand { --jackpot-color: #d4a62a; --jackpot-metal: #f4d36b; }
+
+.money-chip.jackpot-chip {
+  border-width: 3px;
+  border-color: rgba(35, 24, 8, .72);
+  box-shadow: inset 0 0 0 2px rgba(255,255,255,.42), inset 0 -5px 8px rgba(0,0,0,.28), 0 4px 7px rgba(0,0,0,.5);
+}
+
+.money-chip.jackpot-mini {
+  background: radial-gradient(circle at 35% 25%, #ffd0a3, #b87333 58%, #653511 100%);
+}
+
+.money-chip.jackpot-minor {
+  background: radial-gradient(circle at 35% 25%, #fff, #aeb8be 58%, #59636a 100%);
+}
+
+.money-chip.jackpot-major {
+  background: radial-gradient(circle at 35% 25%, #fff, #d9dce2 52%, #858b96 100%);
+  border-color: #f5f5f5;
+}
+
+.money-chip.jackpot-grand {
+  background: radial-gradient(circle at 35% 25%, #fff3aa, #d4a62a 58%, #795411 100%);
+}
+
+.cell.win {
+  background: rgba(231, 189, 84, .1);
+  box-shadow: inset 0 0 0 2px rgba(231, 189, 84, .55);
+}
+
+.cell.win .money-chip {
+  --win-glow: rgba(63, 42, 8, .7);
+}
+
+/* Remove inherited Muha Slots neon effects from Big Money Deluxe */
+.title {
+  text-shadow: 0 2px 0 #513b12;
+}
+
+button:not(.info-btn) {
+  animation: none;
+  box-shadow: inset 0 1px rgba(255,255,255,.16), 0 3px 0 #082f1c, 0 5px 10px rgba(0,0,0,.35);
+}
+
+button:not(.info-btn)::before {
+  content: none;
+  display: none;
+  animation: none;
+}
+
+button:not(.info-btn):hover {
+  animation: none;
+  transform: translateY(-1px);
+  box-shadow: inset 0 1px rgba(255,255,255,.2), 0 4px 0 #082f1c, 0 6px 12px rgba(0,0,0,.42);
+}
+
+.info-btn,
+.info-btn:hover,
+.info-popup {
+  box-shadow: inset 0 1px rgba(255,255,255,.14), 0 3px 7px rgba(0,0,0,.38);
+}
+
+.info-btn {
+  border-color: #b58a35;
+  color: #e9cf8a;
+}
+
+.info-btn:hover {
+  background: #b58a35;
+  color: #102016;
+}
+
+button:focus-visible,
+.info-btn:focus-visible {
+  outline-color: #d4a62a;
+  box-shadow: 0 0 0 3px rgba(212,166,42,.28);
+}
+
+.message {
+  text-shadow: none;
+}
+
+.dot2.path {
+  background: #b58a35 !important;
+  box-shadow: inset 0 0 0 1px #e9cf8a !important;
+}
+
+.money-chip,
+.money-chip.jackpot-chip {
+  box-shadow: inset 0 0 0 2px rgba(255,255,255,.38), inset 0 -4px 7px rgba(0,0,0,.25), 0 4px 7px rgba(0,0,0,.42);
+}
+
+@keyframes payout-chip-win {
+  0% {
+    transform: translateY(7px) scale(.82) rotate(-4deg);
+    filter: brightness(.92);
+    box-shadow: inset 0 0 0 2px rgba(255,255,255,.3), inset 0 -4px 7px rgba(0,0,0,.28), 0 3px 5px rgba(0,0,0,.4);
+  }
+  55% {
+    transform: translateY(-4px) scale(1.1) rotate(3deg);
+    filter: brightness(1.12);
+  }
+  100% {
+    transform: translateY(0) scale(1.03);
+    filter: brightness(1.03);
+    box-shadow: inset 0 0 0 2px rgba(255,255,255,.48), inset 0 -5px 8px rgba(0,0,0,.25), 0 5px 8px rgba(0,0,0,.46);
+  }
+}
