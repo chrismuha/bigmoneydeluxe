@@ -25,10 +25,10 @@ const PAYTABLE = {
 };
 
 const JACKPOT_TIERS = [
-    { name: "Mini", elementId: "jackpotMini", weight: 70, amountUSD: 10 },
-    { name: "Minor", elementId: "jackpotMinor", weight: 20, amountUSD: 100 },
-    { name: "Major", elementId: "jackpotMajor", weight: 8, amountUSD: 1000 },
-    { name: "Grand", elementId: "jackpotGrand", weight: 2, amountUSD: 10000 },
+    { name: "Mini", elementId: "jackpotMini", oddsElementId: "miniJackpotOdds", defaultRate: 0.1, amountUSD: 10 },
+    { name: "Minor", elementId: "jackpotMinor", oddsElementId: "minorJackpotOdds", defaultRate: 0.1, amountUSD: 100 },
+    { name: "Major", elementId: "jackpotMajor", oddsElementId: "majorJackpotOdds", defaultRate: 0.1, amountUSD: 1000 },
+    { name: "Grand", elementId: "jackpotGrand", oddsElementId: "grandJackpotOdds", defaultRate: 0.1, amountUSD: 10000 },
 ];
 
 const ROWS = 5;
@@ -74,7 +74,6 @@ const denomEl = document.getElementById("denom");
 const linesEl = document.getElementById("lines");
 const betEl = document.getElementById("bet");
 const winOddsEl = document.getElementById("winOdds");
-const jackpotOddsEl = document.getElementById("jackpotOdds");
 const maxBetUsesAvailableCreditsEl = document.getElementById("maxBetUsesAvailableCredits");
 const skipWinAnimationDelayEl = document.getElementById("skipWinAnimationDelay");
 const creditStepEl = document.getElementById("creditStep");
@@ -279,9 +278,9 @@ function getTargetSpinWinRate() {
     return Math.min(0.99, Math.max(0.01, value));
 }
 
-function getTargetJackpotRate() {
-    const value = Number.parseFloat(jackpotOddsEl?.value ?? "0.5");
-    return Number.isFinite(value) ? Math.min(0.9, Math.max(0.1, value)) : 0.5;
+function getTargetJackpotRate(tier) {
+    const value = Number.parseFloat(document.getElementById(tier.oddsElementId)?.value ?? tier.defaultRate);
+    return Number.isFinite(value) ? Math.min(0.9, Math.max(0.1, value)) : tier.defaultRate;
 }
 
 function choiceWeighted(weightsMap) {
@@ -434,7 +433,7 @@ function renderBlankGrid() {
     renderGrid(createGrid(() => ""));
 }
 
-function renderWinningPayouts(lineWins, jackpotWin = null) {
+function renderWinningPayouts(lineWins, jackpotWins = []) {
     const payoutsByPosition = new Map();
 
     for (const win of lineWins) {
@@ -454,9 +453,12 @@ function renderWinningPayouts(lineWins, jackpotWin = null) {
     }
 
 
-    if (jackpotWin) {
-        const preferredPositions = [[2, 2], [2, 1], [2, 3], [1, 2], [3, 2], [0, 2], [4, 2]];
-        const [row, col] = preferredPositions.find(([r, c]) => !payoutGrid[r][c]) || [2, 2];
+    const preferredPositions = [[2, 2], [2, 1], [2, 3], [1, 2], [3, 2], [0, 2], [4, 2], [1, 1], [1, 3]];
+    for (let row = 0; row < ROWS; row++) {
+        for (let col = 0; col < COLS; col++) preferredPositions.push([row, col]);
+    }
+    for (const jackpotWin of jackpotWins) {
+        const [row, col] = preferredPositions.find(([r, c]) => !payoutGrid[r][c]);
         payoutGrid[row][col] = { jackpot: jackpotWin.name, value: fmtUSD(jackpotWin.amountUSD) };
         payoutsByPosition.set(`${row},${col}`, jackpotWin.amountUSD);
     }
@@ -464,15 +466,8 @@ function renderWinningPayouts(lineWins, jackpotWin = null) {
     renderGrid(payoutGrid, new Set(payoutsByPosition.keys()));
 }
 
-function resolveJackpotWin() {
-    if (Math.random() >= getTargetJackpotRate()) return null;
-    const totalWeight = JACKPOT_TIERS.reduce((sum, tier) => sum + tier.weight, 0);
-    let roll = Math.random() * totalWeight;
-    const tier = JACKPOT_TIERS.find((candidate) => {
-        roll -= candidate.weight;
-        return roll < 0;
-    }) || JACKPOT_TIERS[0];
-    return { ...tier };
+function resolveJackpotWins() {
+    return JACKPOT_TIERS.filter((tier) => Math.random() < getTargetJackpotRate(tier));
 }
 
 function updateJackpotDisplay() {
@@ -612,12 +607,13 @@ function updateGameOddsDisplay() {
     const { lineWinProb, lineLossProb, returnToPlayer, casinoAdvantage } = getPerLineOddsAndReturn();
     const linesActive = Math.min(10, Math.max(1, parseInt(linesEl.value, 10) || 1));
     const targetSpinWinRate = getTargetSpinWinRate();
-    const targetJackpotRate = getTargetJackpotRate();
+    const jackpotOddsText = JACKPOT_TIERS
+        .map((tier) => `${tier.name} ${fmtPercent(getTargetJackpotRate(tier))}`)
+        .join(", ");
 
     casinoAdvantageTextEl.textContent =
         `Configured spin resolution: win ${fmtPercent(targetSpinWinRate)}, loss ${fmtPercent(1 - targetSpinWinRate)}. ` +
-        `The independent jackpot chance is ${fmtPercent(targetJackpotRate)} (${fmtOneIn(targetJackpotRate)}). ` +
-        `A spin can receive both outcomes.`;
+        `Independent jackpot chances: ${jackpotOddsText}. Multiple jackpots and a regular win can occur together.`;
 
     winLossOddsTextEl.textContent =
         `Current ${linesActive}-line paytable model: per-line win ${fmtPercent(lineWinProb)} (${fmtOneIn(lineWinProb)}), ` +
@@ -1172,12 +1168,12 @@ async function doSpin(options = {}) {
     const shouldWin = Math.random() < getTargetSpinWinRate();
     const grid = resolveSpinGrid(shouldWin);
     const { totalWinUSD: regularWinUSD, lineWins } = evaluateGrid(grid, wagerConfig);
-    const jackpotWin = resolveJackpotWin();
-    const jackpotWinUSD = jackpotWin?.amountUSD || 0;
+    const jackpotWins = resolveJackpotWins();
+    const jackpotWinUSD = jackpotWins.reduce((sum, jackpot) => sum + jackpot.amountUSD, 0);
     const totalWinUSD = roundUSD(regularWinUSD + jackpotWinUSD);
     const lossComponentUSD = Math.max(totalBetUSD - totalWinUSD, 0);
     if (totalWinUSD > 0) {
-        renderWinningPayouts(lineWins, jackpotWin);
+        renderWinningPayouts(lineWins, jackpotWins);
     } else {
         renderBlankGrid();
     }
@@ -1196,7 +1192,7 @@ async function doSpin(options = {}) {
 
         const linesText = lineWins
             .map(w => `Line ${w.lineIndex}: ${fmtUSD(w.winUSD)}`)
-            .concat(jackpotWin ? [`${jackpotWin.name.toUpperCase()} JACKPOT: ${fmtUSD(jackpotWinUSD)}`] : [])
+            .concat(jackpotWins.map((jackpot) => `${jackpot.name.toUpperCase()} JACKPOT: ${fmtUSD(jackpot.amountUSD)}`))
             .join(" • ");
         setMessage(`WIN ${fmtUSD(totalWinUSD)} — ${linesText}`);
     } else {
@@ -1296,7 +1292,7 @@ denomEl.addEventListener("change", onConfigChange);
 linesEl.addEventListener("change", onConfigChange);
 betEl.addEventListener("change", onConfigChange);
 winOddsEl?.addEventListener("change", onConfigChange);
-jackpotOddsEl?.addEventListener("change", onConfigChange);
+JACKPOT_TIERS.forEach((tier) => document.getElementById(tier.oddsElementId)?.addEventListener("change", onConfigChange));
 maxBetUsesAvailableCreditsEl?.addEventListener("change", onConfigChange);
 skipWinAnimationDelayEl?.addEventListener("change", updateAutoSpinHint);
 sessionStatDisplayEl?.addEventListener("change", updateSessionStatsVisibility);
