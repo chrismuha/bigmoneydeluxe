@@ -450,6 +450,7 @@ select,
     .jackpot-pill { flex-direction: column; gap: 1px; }
 }
 
+
 .reels .icon-container {
     display: flex;
     align-items: center;
@@ -568,6 +569,42 @@ select,
         filter: brightness(1.08);
         box-shadow: inset 0 0 0 2px rgba(255, 255, 255, .55), 0 0 24px var(--win-glow), 0 0 42px var(--win-glow);
     }
+}
+
+/* Keep payout chips centered with equal breathing room inside each reel. */
+.reels .cell {
+  padding: clamp(8px, 1vw, 12px);
+  overflow: hidden;
+}
+
+.money-chip,
+.money-chip.jackpot-chip {
+  width: 100%;
+  height: 100%;
+  max-width: 10rem;
+  max-height: 4.75rem;
+  min-width: 0;
+  min-height: 0;
+  margin: auto;
+  padding: .38em .55em;
+  box-sizing: border-box;
+}
+
+@keyframes payout-chip-win {
+  0% {
+    transform: scale(.9) rotate(-2deg);
+    filter: brightness(.94);
+    box-shadow: inset 0 0 0 2px rgba(255,255,255,.3), inset 0 -4px 7px rgba(0,0,0,.28), 0 3px 5px rgba(0,0,0,.4);
+  }
+  55% {
+    transform: scale(1.035) rotate(1deg);
+    filter: brightness(1.1);
+  }
+  100% {
+    transform: scale(1);
+    filter: brightness(1.02);
+    box-shadow: inset 0 0 0 2px rgba(255,255,255,.48), inset 0 -5px 8px rgba(0,0,0,.25), 0 5px 8px rgba(0,0,0,.46);
+  }
 }
 
 /* Large, fully legible payout chips */
