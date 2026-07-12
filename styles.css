@@ -1609,3 +1609,90 @@ body.overlay-open {
     width: 100%;
   }
 }
+
+/* Big Money Deluxe: cash-and-vault identity */
+:root {
+  --bg: #07150f;
+  --card: #0b2118;
+  --accent: #e7bd54;
+  --accent2: #54d38a;
+  --text: #f5ecd3;
+  --muted: #aabbaa;
+  --win: #ffe48a;
+}
+
+body {
+  background:
+    linear-gradient(rgba(4, 18, 12, .92), rgba(3, 12, 8, .96)),
+    repeating-linear-gradient(135deg, transparent 0 24px, rgba(231, 189, 84, .08) 25px 26px),
+    #06120d;
+}
+
+.card {
+  background:
+    radial-gradient(circle at 50% -20%, rgba(231, 189, 84, .18), transparent 40%),
+    linear-gradient(145deg, #102c20, #07150f 72%);
+  box-shadow: inset 0 0 0 2px #775d27, inset 0 0 0 5px #162e23;
+}
+
+.title {
+  justify-content: center;
+  color: #f6d778;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.35rem, 3vw, 2.15rem);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  animation: none;
+  text-shadow: 0 2px 0 #513b12, 0 0 18px rgba(231, 189, 84, .42);
+}
+
+.reels-wrap {
+  border: 2px solid #8b6a2c;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,.025) 50%, transparent 50%) 0 0 / 18px 18px,
+    linear-gradient(180deg, #0b1d16, #05100c);
+  box-shadow: inset 0 0 28px rgba(0, 0, 0, .75), 0 8px 25px rgba(0, 0, 0, .38);
+}
+
+.reels {
+  border: 1px solid rgba(231, 189, 84, .38);
+  border-radius: 10px;
+  background: radial-gradient(circle, rgba(34, 73, 53, .55), rgba(3, 12, 8, .9));
+}
+
+.reels .cell {
+  border-radius: 6px;
+  box-shadow: inset 0 0 0 1px rgba(231, 189, 84, .08);
+}
+
+.stat, .select, .checkbox-setting, .credit-controls {
+  border: 1px solid rgba(231, 189, 84, .24);
+  background: rgba(5, 20, 14, .72);
+}
+
+select, input {
+  border-color: #69552c;
+  background: #10281d;
+  color: #f5ecd3;
+}
+
+button {
+  border-color: #b58a35;
+  background: linear-gradient(180deg, #28764d, #145033);
+  color: #fff8df;
+  box-shadow: inset 0 1px rgba(255,255,255,.18), 0 3px 0 #082f1c, 0 0 12px rgba(84, 211, 138, .18);
+}
+
+#spin {
+  background: linear-gradient(180deg, #efcd68, #a97620);
+  color: #182016;
+  border-color: #ffe99c;
+  font-weight: 900;
+}
+
+.jackpot-board {
+  padding: 8px;
+  border: 1px solid #8b6a2c;
+  border-radius: 12px;
+  background: rgba(4, 16, 11, .8);
+}
