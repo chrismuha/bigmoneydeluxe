@@ -570,6 +570,76 @@ select,
     }
 }
 
+/* Large, fully legible payout chips */
+.reels {
+  --reel-row-h: clamp(64px, 8vw, 92px);
+  --reel-row-gap: clamp(5px, .8vw, 9px);
+}
+
+.reels .cell {
+  padding: 4px;
+  overflow: visible;
+}
+
+.money-chip {
+  width: auto;
+  max-width: calc(100% - 4px);
+  min-width: min(86%, 7.5rem);
+  min-height: clamp(46px, 6vw, 68px);
+  padding: .5em .72em;
+  font-size: clamp(.82rem, 1.65vw, 1.35rem);
+  line-height: 1.05;
+  overflow: visible;
+  white-space: nowrap;
+}
+
+.money-chip.jackpot-chip {
+  width: min(94%, 10rem);
+  min-width: 0;
+  min-height: clamp(52px, 6.7vw, 76px);
+  gap: .22em;
+  padding: .45em .65em;
+}
+
+.jackpot-chip strong {
+  display: block;
+  width: 100%;
+  font-size: clamp(.68rem, 1.35vw, 1rem);
+  line-height: 1.05;
+  overflow: visible;
+  white-space: nowrap;
+}
+
+.jackpot-chip span {
+  display: block;
+  width: 100%;
+  font-size: clamp(.7rem, 1.45vw, 1.08rem);
+  line-height: 1.05;
+  overflow: visible;
+  white-space: nowrap;
+}
+
+@media (max-width: 520px) {
+  .reels {
+    --reel-row-h: 68px;
+    --reel-row-gap: 5px;
+  }
+
+  .money-chip {
+    min-width: 0;
+    padding-inline: .35em;
+    font-size: clamp(.62rem, 3.2vw, .9rem);
+  }
+
+  .money-chip.jackpot-chip {
+    width: 98%;
+    padding-inline: .24em;
+  }
+
+  .jackpot-chip strong { font-size: clamp(.58rem, 2.6vw, .76rem); }
+  .jackpot-chip span { font-size: clamp(.58rem, 2.7vw, .8rem); }
+}
+
 @media (prefers-reduced-motion: reduce) {
     .cell.win .money-chip {
         animation: none;
