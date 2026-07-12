@@ -55,13 +55,13 @@
                         <div class="select">
                             <label for="sessionStatDisplay">Session Stats Display</label>
                             <select id="sessionStatDisplay">
-                                <option value="both" selected>Both</option>
+                                <option value="both">Both</option>
                                 <option value="winnings">Winnings Only</option>
                                 <option value="losses">Losses Only</option>
                                 <option value="netBoth">Both Net</option>
                                 <option value="netWinnings">Net Winnings Only</option>
                                 <option value="netLosses">Net Losses Only</option>
-                                <option value="actualNetBoth">Both Actual Net</option>
+                                <option value="actualNetBoth" selected>Both Actual Net</option>
                                 <option value="actualNetWinnings">Actual Net Winnings Only</option>
                                 <option value="actualNetLosses">Actual Net Losses Only</option>
                             </select>
@@ -253,7 +253,7 @@
                     <p>Each spin resolves as a win or loss using the selected Win Odds. Payouts are calculated from the active lines, bet per line, denomination, and payout multipliers.</p>
                     <p>During a spin, the reels show dollar chips only. A winning spin finishes with one animated chip for each winning line, labeled with that line's dollar payout. Payouts that land in the same position are combined.</p>
                     <p>A losing spin finishes with all reel positions blank.</p>
-                    <p>Mini, Minor, Major, and Grand each have their own Jackpot Odds setting and are rolled independently from regular wins and from one another. Any combination of jackpots can be won by itself or together with a regular payout. Regular wins never display jackpot chips.</p>
+                    <p>Jackpots use a shared event that is independent from regular Win Odds. The highest selected Jackpot Odds value sets the chance that at least one jackpot occurs, while each tier retains its selected chance and multiple tiers can be awarded together. When every tier is set to 1%, the overall jackpot chance is 1% per spin. Regular wins never display jackpot chips.</p>
                     <p>Fixed awards are Mini ($10), Minor ($100), Major ($1,000), and Grand ($10,000). Jackpot awards do not change with the bet or denomination. Each successful roll displays its own colored chip with the jackpot name and amount.</p>
                     <h4>Settings Guide</h4>
                     <p class="overlay-note"><strong>Session Stats Display:</strong> Chooses which stat boxes are visible (regular session totals, Net totals, or Actual Net totals).</p>
