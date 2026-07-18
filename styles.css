@@ -2051,7 +2051,6 @@ button:focus-visible,
 
 .feature-status.feature-active {
   box-shadow: 0 0 18px rgba(255, 215, 70, .7);
-  animation: feature-pulse 850ms ease-in-out infinite alternate;
 }
 
 .feature-overlay {
